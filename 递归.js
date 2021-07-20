@@ -46,17 +46,12 @@
   // 可以看出三种方法的运行速度：方法三 > 方法二 > 方法一
 }
 
-// 深拷贝
-{
-  function deepClone(target) {
-    if (target === null || typeof target !== 'object') return target;
-    const newObject = new target.constructor();
-    for (let key in Object.getOwnPropertyDescriptors(target)) {
-      newObject[key] = deepClone(target[key]);
-    }
-    return newObject;
+// 深拷贝(完整功能版参见“递归.js”)
+function deepClone(target) {
+  if (target === null || typeof target !== 'object') return target;
+  const newObject = new target.constructor();
+  for (let key in Object.getOwnPropertyDescriptors(target)) {
+    newObject[key] = deepClone(target[key]);
   }
-  var t = {a: {b: 2}, c: [3]};
-  const s = deepClone(t);
-  console.log(s, s === t);
+  return newObject;
 }

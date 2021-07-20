@@ -53,9 +53,33 @@ function isBalance(str) {
 }
 
 // 数组去重
-function deduplication(array) {
-  return [...new Set(array)];
+{
+  function uniqueSet(array) {
+    return [...new Set(array)];
+  }
+  function uniqueReduce(array) {
+    return arr.reduce((prev, cur) => {
+      return prev.includes(cur) ? prev : [...prev, cur];
+    }, [])
+  }
+  function uniqueFilter(array) {
+    // 当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
+    return array.filter((item, index, self) => self.indexOf(item, 0) === index);
+  }
+  // 有限制条件
+  function uniqueKeyVal(array) {
+    let obj = {};
+    let arr = [];
+    for(let item of array) {
+      if (!obj[item]) {
+        arr.push(item);
+      }
+      obj[item] = 1;
+    }
+    return arr;
+  }
 }
+
 
 // 数组的替代 splice
 {
