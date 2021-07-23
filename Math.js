@@ -51,3 +51,38 @@ function isPrime(num) {
   }
   return is_prime;
 }
+
+// 生成数值范围内的随机整数
+{
+  function genNumberScope({start = 0, includeStart = true, end = 1, includeEnd = true}) {
+    const random = Math.random();
+    const gap = end - start;
+    const floatGap = gap * random + start;
+    // 因为：floatGap ∈ (start, end) 例如 start = 1, end = 5, 那 floatGap ∈ (1, 5)
+    // 所以：四舍五入取整 => [start, end], 向上取整 => (start, end], 向下取整/取整 => [start, end)
+    if (includeStart) {
+      console.log(floatGap, Math.round(floatGap));
+      return includeEnd ? Math.round(floatGap) : parseInt(floatGap);
+    } else {
+      // 不包含 start 和 end 的思路：
+      // 思路1：
+      // (start, end) 取整相当于 [start + 1, end -1]; 
+      // 所以 newGap = end -start - 2 = gap - 2
+      // new floatGap = newGap * random + start + 1 = (gap - 2) * random + start + 1;
+      // Math.round(floatGap)
+      return includeEnd ? Math.floor(floatGap) + 1 : Math.round((gap - 2) * random + start + 1);
+    }
+  };
+  // 思路2：利用递归的思维
+  function GNS1({start = 0, includeStart = true, end = 1, includeEnd = true}) {
+    if (end < start) return null;
+    const calc = (start, end) => Math.round((end - start) * Math.random() + start);
+    if (includeStart) {
+      return includeEnd ? calc(start, end) : calc(start, end -1);
+    } else {
+      return includeEnd ? calc(start + 1, end) : (end - start > 2 ? calc(start + 1, end - 1) : null);
+    }
+  }
+  console.log(GNS1({start: 1, end: 5, includeEnd: true, includeStart: true}));
+}
+
